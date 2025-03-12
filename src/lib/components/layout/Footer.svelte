@@ -15,15 +15,7 @@
     <!-- Footer content -->
     <div class="relative h-full flex flex-col">
       <!-- Navigation buttons -->
-      <div class="flex justify-between items-center px-8 py-4">
-        <!-- <a href="/about" class="bg-amber-800 hover:bg-amber-700 text-amber-100 px-4 py-2 rounded-full shadow-lg transition-colors">
-          About Me
-        </a>
-        
-        <a href="/contact" class="bg-amber-800 hover:bg-amber-700 text-amber-100 px-4 py-2 rounded-full shadow-lg transition-colors">
-          Contact Me
-        </a> -->
-
+      <div class="flex justify-between items-center px-8 py-4 mt-4">
 
         <!-- Replace the anchor tags with Button components -->
         <Button href="/about" variant="primary">About Me</Button>

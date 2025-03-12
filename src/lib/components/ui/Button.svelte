@@ -8,7 +8,7 @@
     
     // Compute classes based on props
     $: variantClasses = {
-      primary: "bg-amber-700 hover:bg-amber-600 text-amber-50 border-transparent",
+      primary: "bg-black hover:bg-amber-100 text-amber-50 border-transparent",
       secondary: "bg-stone-700 hover:bg-stone-600 text-amber-50 border-transparent",
       outline: "bg-transparent hover:bg-amber-800/10 text-amber-800 border-amber-800",
     }[variant];
