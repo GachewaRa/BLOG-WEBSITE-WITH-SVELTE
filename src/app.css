@@ -1,12 +1,16 @@
-
 @import 'tailwindcss';
 @import '@fontsource/fira-mono';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+@import '@fontsource/fira-mono';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography'
+
 :root {
-	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	--font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	--font-mono: 'Fira Mono', monospace;
 	--color-bg-0: rgb(202, 216, 228);
 	--color-bg-1: hsl(209, 36%, 86%);
@@ -16,11 +20,13 @@
 	--color-text: rgba(0, 0, 0, 0.7);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
-	font-family: var(--font-body);
-	color: var(--color-text);
-}
+  
+	/* You can add dark mode variables here, if needed */
+	--color-bg-0-dark: #121212;
+	--color-text-dark: #f0f0f0;
+  }
 
-body {
+/* body {
 	min-height: 100vh;
 	margin: 0;
 	background-attachment: fixed;
@@ -32,7 +38,17 @@ body {
 			rgba(255, 255, 255, 0) 100%
 		),
 		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
-}
+} */
+
+body {
+    @apply bg-white dark:bg-stone-900 text-stone-900 dark:text-amber-50 transition-colors duration-300;
+    font-family: 'Ubuntu', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background-attachment: fixed;
+    background-size: 100vw 100vh;
+    background-image: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 100%), linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
+  }
 
 h1,
 h2,
@@ -111,19 +127,31 @@ button:focus:not(:focus-visible) {
 }
 
 
-@layer base {
-  html {
-    @apply bg-amber-50 text-stone-800;
+/* Dark mode adjustments */
+/* html.dark {
+	--color-bg-0: var(--color-bg-0-dark);
+	--color-text: var(--color-text-dark);
+  }
+
+/* Transitions */
+/* .page-transition {
+	@apply transition-opacity duration-300;
   }
   
-  /* body {
-    @apply font-ubuntu;
+  .fade-in {
+	@apply opacity-0 animate-[fadeIn_0.5s_ease-in-out_forwards];
   }
-   */
-  /* h1, h2, h3, h4, h5, h6 {
-    @apply font-egyptian;
-  } */
-}
+  
+  @keyframes fadeIn {
+	from {
+	  opacity: 0;
+	} */
+  
+	/* to {
+	  opacity: 1;
+	}
+  } */ */
+
 
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');

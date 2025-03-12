@@ -1,11 +1,12 @@
 <script>
   import AfricanPattern from '$lib/components/ui/AfricanPattern.svelte';
   import Button from '../ui/Button.svelte';
+  import { isDarkMode } from '$lib/stores/appStore';
 
   export let isLargeScreen = true;
 </script>
 
-<footer class="fixed bottom-0 left-0 right-0 h-32 z-30" style="left: var(--sidebar-width, 0);">
+<footer class="fixed bottom-0 left-0 right-0 h-32 z-30 transition-all duration-300" style={isLargeScreen ? 'left: 16rem;' : ''}>
   <div class="relative w-full h-full overflow-hidden">
     <!-- African pattern background -->
     <div class="absolute inset-0">
@@ -15,11 +16,9 @@
     <!-- Footer content -->
     <div class="relative h-full flex flex-col">
       <!-- Navigation buttons -->
-      <div class="flex justify-between items-center px-8 py-4 mt-4">
-
-        <!-- Replace the anchor tags with Button components -->
-        <Button href="/about" variant="primary">About Me</Button>
-        <Button href="/contact" variant="primary">Contact Me</Button>
+      <div class="flex justify-center md:justify-between items-center px-4 md:px-8 py-4 mt-4">
+        <Button href="/about" variant={$isDarkMode ? "outline" : "primary"}>About Me</Button>
+        <Button href="/contact" variant={$isDarkMode ? "outline" : "primary"}>Contact Me</Button>
       </div>
       
       <!-- Quote -->
@@ -29,12 +28,3 @@
     </div>
   </div>
 </footer>
-
-<style>
-  /* Set sidebar width variable for proper footer positioning */
-  @media (min-width: 1024px) {
-    footer {
-      --sidebar-width: 16rem;
-    }
-  }
-</style>
