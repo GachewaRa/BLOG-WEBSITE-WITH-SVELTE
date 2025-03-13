@@ -69,7 +69,9 @@
               <HutIcon className="mr-1 w-5 h-5" />
               <span class="text-lg font-semibold">{item.name}</span>
             {:else if item.icon}
-              <img src={item.icon} alt={item.name} class="mr-1 w-5 h-5" />
+              <div class="mr-1 w-5 h-5 flex items-center justify-center rounded-md bg-black/60">
+                <img src={item.icon} alt={item.name} class="w-full h-full object-contain" />
+              </div>
               <span class="text-lg font-semibold">{item.name}</span>
             {:else}
               <span class="text-lg font-semibold">{item.name}</span>

@@ -3,7 +3,7 @@
   </script>
   
   <div class="max-w-4xl mx-auto">
-	<h1 class="text-4xl font-bold text-amber-900 mb-6 font-egyptian">Welcome to My African-Inspired Portfolio</h1>
+	<h1 class="text-4xl font-bold text-amber-900 mb-6 font-egyptian">Welcome to My Digital Journal</h1>
 	
 	<div class="bg-amber-50 p-6 rounded-lg shadow-lg border border-amber-200 mb-8">
 	  <h2 class="text-2xl font-semibold text-amber-800 mb-4">About Me</h2>
