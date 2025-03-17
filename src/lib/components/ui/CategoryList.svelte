@@ -1,33 +1,24 @@
 <script>
-    export let categories = [];
-    // import { page } from '$app/stores';
-    
-    // Track active category
-    let activeCategory = null;
-    
-    function setActiveCategory(category) {
-      activeCategory = category;
-      // This would typically navigate or filter content
-      // For now just updating UI state
-    }
-  </script>
+  import { goto } from '$app/navigation';
   
+  export let categories = [];
+  
+  function goToCategory(slug) {
+    goto(`/category/${slug}`);
+  }
+</script>
+
+<nav>
   <ul class="space-y-2">
     {#each categories as category}
       <li>
         <button 
-          class="w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center"
-          class:bg-amber-800={activeCategory === category}
-          class:text-amber-100={activeCategory === category}
-          class:hover:bg-amber-700={activeCategory !== category}
-          class:hover:text-amber-200={activeCategory !== category}
-          class:text-amber-300={activeCategory !== category}
-          on:click={() => setActiveCategory(category)}
+          on:click={() => goToCategory(category.slug)}
+          class="flex items-center w-full py-2 px-3 text-amber-100 hover:bg-stone-800 hover:text-amber-300 rounded-md transition-colors"
         >
-          <!-- Small decorative element - suggests African pattern -->
-          <span class="w-2 h-2 bg-current rounded-full mr-2 opacity-70"></span>
-          {category}
+          <span>{category.name}</span>
         </button>
       </li>
     {/each}
   </ul>
+</nav>

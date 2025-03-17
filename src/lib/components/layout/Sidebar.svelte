@@ -1,25 +1,35 @@
 <script>
+  import { onMount } from 'svelte';
   import CategoryList from '$lib/components/ui/CategoryList.svelte';
   import logo from '$lib/images/SITE LOGO11.png';
+  import { getRequest } from '$lib/utils/api';
   
   export let isLargeScreen = true;
   
-  // Sample categories
-  const categories = [
-    "Ancient Wisdom",
-    "Ubuntu Philosophy",
-    "African Art",
-    "Traditional Crafts",
-    "Cultural Heritage",
-    "Modern Africa",
-    "Storytelling",
-    "African Tech",
-    "Diaspora Stories",
-    "Egyptian History",
-    "Nubian Culture",
-    "Traditional Medicine",
-    "African Cuisine"
-  ];
+  let categories = [];
+  let loading = true;
+  let error = null;
+  
+  async function fetchCategories() {
+    loading = true;
+    error = null;
+    try {
+      const response = await getRequest('/api/blog/categories/');
+      
+      if (response.data) {
+        categories = response.data;
+      } else if (response.error) {
+        error = response.error;
+      }
+    } catch (e) {
+      error = "Failed to load categories.";
+      console.error(e);
+    } finally {
+      loading = false;
+    }
+  }
+  
+  onMount(fetchCategories);
 </script>
 
 <aside class="bg-stone-900 text-amber-100 h-full w-64 flex flex-col">
@@ -39,6 +49,21 @@
 
   <!-- Category List (Scrollable) -->
   <div class="flex-1 overflow-y-auto py-4 px-3">
-    <CategoryList {categories} />
+    {#if loading}
+      <div class="flex justify-center py-4">
+        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-500"></div>
+      </div>
+    {:else if error}
+      <p class="text-red-500 text-sm">{error}</p>
+    {:else}
+      <CategoryList {categories} />
+    {/if}
+  </div>
+  
+  <!-- Quotes Button (Fixed at bottom) -->
+  <div class="px-3 py-4 bg-stone-900 border-t border-amber-700">
+    <a href="/quotes" class="block w-full py-3 px-4 bg-amber-200 hover:bg-black text-amber-800 rounded-md text-center font-bold transition-colors">
+      Quotes
+    </a>
   </div>
 </aside>

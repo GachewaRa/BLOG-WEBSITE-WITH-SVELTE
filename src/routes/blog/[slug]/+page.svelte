@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { getRequest, postRequest } from '$lib/utils/api';
   import { page } from '$app/stores';
-  import { user } from '$lib/stores/authStore'; // Assuming you have an auth store with user data
+  import { user } from '$lib/stores/authStore';
   
   let post = null;
   let comments = [];
@@ -17,6 +17,42 @@
     content: '',
     post: null
   };
+  
+  // Get API base URL from environment (adjust as needed)
+  const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+  
+  // Helper to get full image URL
+  function getFullImageUrl(imagePath) {
+    if (!imagePath) return null;
+    
+    // If the image path already has the full URL, return it as is
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // Otherwise, prepend the backend URL
+    return `${API_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
+  }
+  
+  // Fix image URLs in HTML content
+  function fixContentImageUrls(htmlContent) {
+    if (!htmlContent) return '';
+    
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    
+    // Find all images and update their src attributes
+    const images = tempDiv.querySelectorAll('img');
+    images.forEach(img => {
+      const src = img.getAttribute('src');
+      if (src && !src.startsWith('http')) {
+        // Prepend the base URL if needed
+        img.setAttribute('src', getFullImageUrl(src));
+      }
+    });
+    
+    return tempDiv.innerHTML;
+  }
   
   // Format date nicely
   function formatDate(dateString) {
@@ -110,8 +146,12 @@
       const response = await getRequest(`/api/blog/posts/${slug}/`);
       
       if (response.data) {
+        // Fix image URLs in the content
+        const fixedContent = fixContentImageUrls(response.data.content);
+        
         post = {
           ...response.data,
+          content: fixedContent,
           formattedDate: formatDate(response.data.updated_at || response.data.created_at)
         };
         
@@ -165,7 +205,7 @@
       </div>
       
       {#if post.image}
-        <img src={post.image} alt={post.title} class="w-full h-auto mb-6 rounded" />
+        <img src={getFullImageUrl(post.image)} alt={post.title} class="w-full h-auto mb-6 rounded" />
       {/if}
       
       <div class="prose prose-stone dark:prose-invert max-w-none mb-12">

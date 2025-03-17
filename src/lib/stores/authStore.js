@@ -1,28 +1,30 @@
 // $lib/stores/authStore.js
 import { writable } from 'svelte/store';
 
-// Initialize user from localStorage if available
-const storedUser = localStorage.getItem('user');
-const initialUser = storedUser ? JSON.parse(storedUser) : null;
+let initialUser = null;
 
-// Create the user store
+if (typeof window !== 'undefined') {
+  // Only run this code in the browser
+  const storedUser = localStorage.getItem('user');
+  initialUser = storedUser ? JSON.parse(storedUser) : null;
+}
+
 export const user = writable(initialUser);
 
-// Subscribe to changes and update localStorage
 user.subscribe(value => {
-  if (value) {
-    localStorage.setItem('user', JSON.stringify(value));
-  } else {
-    localStorage.removeItem('user');
+  if (typeof window !== 'undefined') {
+    if (value) {
+      localStorage.setItem('user', JSON.stringify(value));
+    } else {
+      localStorage.removeItem('user');
+    }
   }
 });
 
-// Function to set user after login
 export function setUser(userData) {
   user.set(userData);
 }
 
-// Function to clear user data on logout
 export function clearUser() {
   user.set(null);
 }
