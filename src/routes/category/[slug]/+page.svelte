@@ -101,19 +101,12 @@
   }
 
   onMount(() => {
+    // Single subscription to the page store
     unsubscribe = page.subscribe(($page) => {
       if ($page.params.slug) {
         categorySlug = $page.params.slug;
-        
-        // First try to get name from URL param
-        const nameFromUrl = $page.url.searchParams.get('name');
-        if (nameFromUrl) {
-          categoryName = decodeURIComponent(nameFromUrl);
-        } else {
-          // Fallback to API call
-          fetchCategoryInfo();
-        }
-        
+        console.log("Category slug from URL:", categorySlug); // Debug log
+        fetchCategoryInfo();
         fetchPosts();
       }
     });

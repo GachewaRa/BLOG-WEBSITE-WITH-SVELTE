@@ -4,7 +4,7 @@
   export let categories = [];
   
   function goToCategory(slug) {
-    goto(`/category/${slug}?name=${encodeURIComponent(name)}`);
+    goto(`/category/${slug}`);
   }
 </script>
 
