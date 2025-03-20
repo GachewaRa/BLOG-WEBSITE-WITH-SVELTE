@@ -4,7 +4,7 @@
   export let categories = [];
   
   function goToCategory(slug) {
-    goto(`/category/${slug}`);
+    goto(`/category/${slug}?name=${encodeURIComponent(name)}`);
   }
 </script>
 
@@ -13,7 +13,7 @@
     {#each categories as category}
       <li>
         <button 
-          on:click={() => goToCategory(category.slug)}
+          on:click={() => goToCategory(category.slug, category.name)}
           class="flex items-center w-full py-2 px-3 text-amber-100 hover:bg-stone-800 hover:text-amber-300 rounded-md transition-colors"
         >
           <span>{category.name}</span>

@@ -16,7 +16,7 @@
     <!-- Footer content -->
     <div class="relative h-full flex flex-col">
       <!-- Navigation buttons -->
-      <div class="flex justify-center md:justify-between items-center px-4 md:px-8 py-4 mt-4">
+      <div class="flex justify-center md:justify-between items-center px-4 md:px-8 py-4">
         <Button href="/about" variant={$isDarkMode ? "outline" : "primary"}>About Me</Button>
         <Button href="/contact" variant={$isDarkMode ? "outline" : "primary"}>Contact Me</Button>
       </div>

@@ -1,9 +1,5 @@
 // src/lib/utils/api.js
 
-// Import necessary modules (if any)
-// Svelte doesn't require importing fetch, it's globally available
-// import { goto } from '$app/navigation'; // Import goto if you need client-side routing
-
 const BASE_URL = "http://127.0.0.1:8000";
 
 /**
@@ -14,7 +10,12 @@ const BASE_URL = "http://127.0.0.1:8000";
  * @returns {Promise<{ data?: any, error?: string, status: number | null }>}
  */
 const makeRequest = async (endpoint, method, payload = null) => {
-  const token = localStorage.getItem("token"); // Retrieve token for authentication
+  let token = null;
+
+  // Check if window is defined (client-side) before accessing localStorage
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token"); // Retrieve token for authentication
+  }
 
   // Build request options
   const requestOptions = {
@@ -28,6 +29,8 @@ const makeRequest = async (endpoint, method, payload = null) => {
 
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
+    console.log("USING ENDPOINT: ", endpoint);
+
     // Check if response content is JSON before parsing
     const contentType = response.headers.get("content-type");
     const isJson = contentType && contentType.includes("application/json");
@@ -41,7 +44,7 @@ const makeRequest = async (endpoint, method, payload = null) => {
 
     return { data: responseData?.responseObject || responseData, status: response.status };
   } catch (error) {
-    console.error("Network error:", error); // Log the error for debugging
+    console.error("Network error:", error);
     return { error: "Network error. Please try again.", status: null };
   }
 };
