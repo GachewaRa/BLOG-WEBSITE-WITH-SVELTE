@@ -14,6 +14,7 @@
   let postsPerPage = 6;
   let totalPosts = 0;
   let unsubscribe;
+  let categoryId = null;
   
   // Function to create a plain text preview from HTML content
   function createContentPreview(htmlContent, maxLength = 150) {
@@ -56,19 +57,20 @@
     }).format(date);
   }
   
+
   async function fetchCategoryInfo() {
-    try {
-      const response = await getRequest(`/api/blog/categories/?slug=${categorySlug}`);
-      if (response.data && response.data.length > 0) {
-        categoryName = response.data[0].name;
-      } else {
-        categoryName = '';
-      }
-    } catch (e) {
-      console.error("Error fetching category info:", e);
-      categoryName = '';
+        try {
+            const response = await getRequest(`/api/blog/categories/${categoryId}/`); // Use categoryId
+            if (response.data) {
+                categoryName = response.data.name;
+            } else {
+                categoryName = '';
+            }
+        } catch (e) {
+            console.error("Error fetching category info:", e);
+            categoryName = '';
+        }
     }
-  }
 
   async function fetchPosts() {
     loading = true;
@@ -100,17 +102,21 @@
     }
   }
 
+
   onMount(() => {
-    // Single subscription to the page store
-    unsubscribe = page.subscribe(($page) => {
-      if ($page.params.slug) {
-        categorySlug = $page.params.slug;
-        console.log("Category slug from URL:", categorySlug); // Debug log
-        fetchCategoryInfo();
-        fetchPosts();
-      }
+        let unsubscribe = page.subscribe(($page) => {
+            if ($page.params.slug) {
+                categorySlug = $page.params.slug;
+                categoryId = $page.url.searchParams.get('id'); // Get ID from query params
+                fetchCategoryInfo();
+                fetchPosts();
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
     });
-  });
   
   onDestroy(() => {
     if (unsubscribe) {

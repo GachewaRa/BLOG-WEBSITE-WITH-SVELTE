@@ -17,7 +17,11 @@
       const response = await getRequest('/api/blog/categories/');
       
       if (response.data) {
-        categories = response.data;
+        categories = response.data.map(category => ({
+                    id: category.id, // Store the ID
+                    slug: category.slug,
+                    name: category.name
+                }));
       } else if (response.error) {
         error = response.error;
       }
