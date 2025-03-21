@@ -135,6 +135,7 @@
   
   onMount(async () => {
     const slug = $page.params.slug;
+  
     
     if (!slug) {
       error = "Post not found";
@@ -148,11 +149,18 @@
       if (response.data) {
         // Fix image URLs in the content
         const fixedContent = fixContentImageUrls(response.data.content);
-        
+        // console.log("RESPONSE DATA TAGS", response.data.tags);
+        const tags = response.data.tags.map(tag => ({
+          // id: tag.id,
+          // slug: tag.slug,
+          name: tag
+        }));
+        console.log("TAGS", tags);
         post = {
           ...response.data,
           content: fixedContent,
-          formattedDate: formatDate(response.data.updated_at || response.data.created_at)
+          formattedDate: formatDate(response.data.updated_at || response.data.created_at),
+          tags: tags
         };
         
         // Fetch comments after the post is loaded
@@ -167,6 +175,7 @@
       loading = false;
     }
   });
+  
 </script>
 
 <svelte:head>
@@ -218,11 +227,16 @@
           <h3 class="text-lg font-bold mb-2">Tags</h3>
           <div class="flex flex-wrap">
             {#each post.tags as tag}
-              <span class="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100 px-2 py-1 rounded mr-2 mb-2">{tag}</span>
-            {/each}
+              <a href="/tag/{tag.name}">
+              <span class="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-100 px-2 py-1 rounded mr-2 mb-2">{tag.name}</span>
+              </a>
+              {/each}
           </div>
         </div>
       {/if}
+
+      
+
       
       <!-- Comments Section -->
       <div class="mt-12 pt-6 border-t border-stone-200 dark:border-stone-700">

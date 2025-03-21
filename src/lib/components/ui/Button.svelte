@@ -11,9 +11,9 @@
   
   // Compute classes based on props
   $: variantClasses = {
-    primary: "bg-black hover:bg-amber-100 text-amber-50 border-transparent dark:bg-amber-800 dark:hover:bg-amber-700",
-    secondary: "bg-stone-700 hover:bg-stone-600 text-amber-50 border-transparent dark:bg-stone-600 dark:hover:bg-stone-500",
-    outline: "bg-transparent hover:bg-amber-800/10 text-amber-800 border-amber-800 dark:text-amber-100 dark:border-amber-100 dark:hover:bg-amber-100/10",
+    primary: "bg-black hover:bg-amber-500 text-amber-50 border-transparent dark:bg-amber-800 dark:hover:bg-amber-700",
+    secondary: "bg-stone-200 hover:bg-white text-amber-50 border-transparent dark:bg-stone-600 dark:hover:bg-stone-500",
+    outline: "bg-black hover:bg-white text-amber-800 border-amber-800 dark:text-amber-100 dark:border-amber-100 dark:hover:bg-amber-100/10",
   }[variant];
   
   $: sizeClasses = {

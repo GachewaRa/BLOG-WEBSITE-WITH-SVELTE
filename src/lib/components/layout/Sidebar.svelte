@@ -66,7 +66,7 @@
   
   <!-- Quotes Button (Fixed at bottom) -->
   <div class="px-3 py-4 bg-stone-900 border-t border-amber-700">
-    <a href="/quotes" class="block w-full py-3 px-4 bg-amber-200 hover:bg-black text-amber-800 rounded-md text-center font-bold transition-colors">
+    <a href="/quotes" class="block w-full py-3 px-4 bg-black hover:bg-white text-amber-800 rounded-md text-center font-bold transition-colors">
       Quotes
     </a>
   </div>
