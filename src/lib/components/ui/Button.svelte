@@ -1,7 +1,6 @@
-<!-- src/lib/components/ui/Button.svelte -->
 <script>
   export let type = "button";
-  export let variant = "primary"; // primary, secondary, outline
+  export let variant = "primary"; // primary, secondary, outline, african
   export let size = "md"; // sm, md, lg
   export let disabled = false;
   export let fullWidth = false;
@@ -13,7 +12,8 @@
   $: variantClasses = {
     primary: "bg-black hover:bg-amber-500 text-amber-50 border-transparent dark:bg-amber-800 dark:hover:bg-amber-700",
     secondary: "bg-stone-200 hover:bg-white text-amber-50 border-transparent dark:bg-stone-600 dark:hover:bg-stone-500",
-    outline: "bg-black hover:bg-white text-amber-800 border-amber-800 dark:text-amber-100 dark:border-amber-100 dark:hover:bg-amber-100/10",
+    // outline: "bg-black hover:bg-white text-amber-800 border-amber-800 dark:text-amber-100 dark:border-amber-100 dark:hover:bg-amber-100/10",
+    african: "bg-amber-800 hover:bg-amber-600 text-amber-50 border-amber-500 dark:bg-amber-900 dark:hover:bg-amber-800"
   }[variant];
   
   $: sizeClasses = {
@@ -26,7 +26,6 @@
   
   // Combine all classes
   $: className = `inline-flex items-center justify-center border rounded-lg transition-colors ${variantClasses} ${sizeClasses} ${widthClass} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`;
-  // Rest of your Button.svelte component remains the same
 </script>
 
 {#if href && !disabled}

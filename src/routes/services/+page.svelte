@@ -82,12 +82,12 @@
 			  <div class="mt-auto">
 				<p class="text-sm text-stone-500 dark:text-stone-400 mb-3">Interested? Get in touch:</p>
 				<div class="flex space-x-3">
-				  <a href={inquiryLinks.emailLink} class="flex-1 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded text-center transition-colors">
-					Email Inquiry
-				  </a>
-				  <a href={inquiryLinks.whatsappLink} class="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-center transition-colors">
-					WhatsApp
-				  </a>
+					<a href={inquiryLinks.emailLink} class="flex-1 border border-amber-800 hover:bg-amber-800 text-amber-800 px-4 py-2 rounded text-center transition-colors">
+						Email Inquiry
+					</a>
+					<a href={inquiryLinks.whatsappLink} class="flex-1 border border-green-500 hover:bg-green-800 text-green-800 px-4 py-2 rounded text-center transition-colors">
+						WhatsApp
+					</a>
 				</div>
 			  </div>
 			</div>
