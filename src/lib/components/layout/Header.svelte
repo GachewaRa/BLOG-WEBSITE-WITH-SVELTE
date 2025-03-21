@@ -6,6 +6,7 @@
   import { page } from '$app/stores';
   import UserMenu from '../ui/UserMenu.svelte';
   import { isDarkMode } from '$lib/stores/appStore';
+  import UserIcon from '$lib/components/icons/UserIcon.svelte';
 
   import scroll from '$lib/images/SCROLL copy2.png';
   import myprojects from '$lib/images/PROJECTS copy.png';
@@ -35,12 +36,10 @@
 
 
 <header class="fixed top-0 right-0 left-0 z-30 h-20 transition-all duration-300"
-  style={isLargeScreen ? 'left: 16rem;' : ''}>
-  <div class="relative w-full h-full overflow-hidden">
-    <!-- African pattern background -->
-    <div class="absolute inset-0">
-      <AfricanPattern fadeDirection="bottom" />
-    </div>
+    style={isLargeScreen ? 'left: 16rem;' : ''}>
+    <div class="relative w-full h-full"> <div class="absolute inset-0">
+            <AfricanPattern fadeDirection="bottom" />
+        </div>
     
     <!-- Navigation overlay -->
     <div class="relative h-full flex items-center justify-between px-4 md:px-6">
@@ -102,7 +101,7 @@
         <!-- <ThemeToggle {toggleDarkMode} isDark={$isDarkMode} /> -->
         
         <!-- User menu -->
-        <UserMenu user={null} /> <!-- Pass user object when auth is implemented -->
+        <UserMenu user={null} /> 
       </div>
     </div>
   </div>

@@ -35,7 +35,7 @@
     aria-label="User menu"
     aria-expanded={menuOpen}
   >
-    <UserIcon class="w-6 h-6" />
+    <UserIcon className="w-6 h-6" />
   </button>
   
   {#if menuOpen}
