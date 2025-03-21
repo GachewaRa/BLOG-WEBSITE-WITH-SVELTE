@@ -22,8 +22,26 @@
   const API_BASE_URL = import.meta.env.VITE_API_URL || '';
   
   // Helper to get full image URL
+  // function getFullImageUrl(imagePath) {
+  //   if (!imagePath) return null;
+    
+  //   // If the image path already has the full URL, return it as is
+  //   if (imagePath.startsWith('http')) {
+  //     return imagePath;
+  //   }
+    
+  //   // Otherwise, prepend the backend URL
+  //   return `${API_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
+  // }
+
+  // Update this function in your post detail component
   function getFullImageUrl(imagePath) {
     if (!imagePath) return null;
+    
+    // If the image is a data URL (base64), return it directly
+    if (imagePath.startsWith('data:')) {
+      return imagePath;
+    }
     
     // If the image path already has the full URL, return it as is
     if (imagePath.startsWith('http')) {
@@ -33,7 +51,7 @@
     // Otherwise, prepend the backend URL
     return `${API_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
   }
-  
+    
   // Fix image URLs in HTML content
   function fixContentImageUrls(htmlContent) {
     if (!htmlContent) return '';
