@@ -1,42 +1,88 @@
 <script>
-    import { postRequest } from "$lib/utils/api";
+    import { postRequest, getRequest } from "$lib/utils/api";
+    import { setUser } from "$lib/stores/authStore";
+    import { goto } from '$app/navigation';
 
     let email = "";
     let password = "";
     let successMessage = "";
+    let errorMessage = "";
+    let isLoading = false;
+    let showPassword = false;
 
     async function login() {
         successMessage = "";
+        errorMessage = "";
+        isLoading = true;
+        
         try {
+            // First get the JWT tokens
             const response = await postRequest("/auth/jwt/create/", {
                 email: email,
                 password: password,
             });
 
-            if (response.data) {
-                successMessage = "Login successful!";
-                email = "";
-                password = "";
-                // You would typically store the token here, e.g., in localStorage
-                console.log("Token:", response.data.access);
-                console.log("Refresh token:", response.data.refresh);
+            if (response.data && response.data.access) {
+                // Store the JWT token in localStorage for backward compatibility
+                // console.log("Token:", response.data.access);
+				localStorage.setItem("token", response.data.access);
+                
+                // Use the token to fetch user details
+                const userResponse = await getRequest("/auth/users/me/");
+                
+                if (userResponse.data) {
+                    // Store complete user data in the authStore
+                    setUser({
+                        access: response.data.access,
+                        refresh: response.data.refresh,
+                        email: userResponse.data.email,
+                        id: userResponse.data.id,
+                        // Include any other user fields from the response
+                        ...(userResponse.data.username && { username: userResponse.data.username }),
+                        ...(userResponse.data.is_subscribed_to_newsletter !== undefined && 
+                            { is_subscribed_to_newsletter: userResponse.data.is_subscribed_to_newsletter })
+                    });
+                    
+                    successMessage = "Login successful!";
+                    email = "";
+                    password = "";
+                    
+                    // Redirect user to home after successful login
+                    goto('/');
+                } else {
+                    errorMessage = userResponse.error || "Failed to fetch user details.";
+                }
             } else if (response.error) {
-                successMessage = response.error || "Login failed. Please check your credentials.";
+                errorMessage = response.error || "Login failed. Please check your credentials.";
             } else {
-                successMessage = "Login failed. Please check your credentials.";
+                errorMessage = "Login failed. Please check your credentials.";
             }
         } catch (error) {
-            successMessage = "Error connecting to the server.";
+            errorMessage = "Error connecting to the server.";
             console.error("Login Error:", error);
+        } finally {
+            isLoading = false;
         }
     }
 </script>
 
 <div class="container">
     <div class="login-box">
-        <h2>Login</h2>
+        <h2>Sign In</h2>
         <p style="margin-bottom: 1.5rem; opacity: 0.9;">Enter your credentials to log in.</p>
-
+        
+        {#if successMessage}
+            <p class="success-message">
+                {successMessage}
+            </p>
+        {/if}
+        
+        {#if errorMessage}
+            <p class="success-message error-message">
+                {errorMessage}
+            </p>
+        {/if}
+        
         <form on:submit|preventDefault={login}>
             <div class="form-group">
                 <label for="email">Email</label>
@@ -50,26 +96,41 @@
                 />
             </div>
 
-            <div class="form-group">
+            
+            <div class="form-group password-group">
                 <label for="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                    bind:value={password}
-                    class="input-field"
-                    required
-                />
+                <div class="password-container">
+                    <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        bind:value={password}
+                        class="input-field"
+                        required
+                    />
+                    <span class="toggle-password" on:click={() => showPassword = !showPassword}>
+                        {#if showPassword}
+                            👁️ <!-- Eye Open Icon -->
+                        {:else}
+                            👁️‍🗨️ <!-- Eye Closed Icon -->
+                        {/if}
+                    </span>
+                </div>
             </div>
+            
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={isLoading}>
+                {isLoading ? 'Signing in...' : 'Sign In'}
+            </button>
         </form>
 
-        {#if successMessage}
-            <p class="success-message" class:error-message={successMessage.includes("failed")}>
-                {successMessage}
+        <div class="register-link">
+            <p>Don't have an account? <a href="/auth/register">Register</a></p>
+            <p>
+                <!-- <a href="/forgot-password">Forgot Password?</a> -->
             </p>
-        {/if}
+            
+        </div>
     </div>
 </div>
 
@@ -184,17 +245,76 @@
       letter-spacing: 0.5px;
       margin-top: 0.5rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 100%;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
 
     .success-message {
       color: var(--highlight);
       margin-top: 1rem;
+      margin-bottom: 1rem;
       font-size: 0.9rem;
-      opacity: 0.8;
+      padding: 0.8rem;
+      border-radius: 6px;
+      background: rgba(0, 100, 0, 0.2);
+      border: 1px solid rgba(0, 100, 0, 0.3);
     }
+    
+    .error-message {
+      color: #ff6b6b;
+      background: rgba(100, 0, 0, 0.2);
+      border: 1px solid rgba(100, 0, 0, 0.3);
+    }
+    
+    .register-link {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .register-link a {
+      color: var(--highlight);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Password field container */
+    .password-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+        
+    /* Input field inside the password container */
+    .password-container input {
+        width: 100%;
+        padding-right: 40px; /* Space for the eye icon */
+    }
+
+    /* Eye icon styling */
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--primary-light);
+        transition: color 0.3s;
+    }
+
+    .toggle-password:hover {
+        color: var(--highlight);
+    }
+
 </style>

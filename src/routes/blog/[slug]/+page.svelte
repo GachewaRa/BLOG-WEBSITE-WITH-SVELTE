@@ -20,19 +20,8 @@
   
   // Get API base URL from environment (adjust as needed)
   const API_BASE_URL = import.meta.env.VITE_API_URL || '';
-  
-  // Helper to get full image URL
-  // function getFullImageUrl(imagePath) {
-  //   if (!imagePath) return null;
-    
-  //   // If the image path already has the full URL, return it as is
-  //   if (imagePath.startsWith('http')) {
-  //     return imagePath;
-  //   }
-    
-  //   // Otherwise, prepend the backend URL
-  //   return `${API_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
-  // }
+  console.log("USER", $user);
+
 
   // Update this function in your post detail component
   function getFullImageUrl(imagePath) {
@@ -266,7 +255,7 @@
           
           {#if !$user}
             <div class="bg-blue-100 text-blue-800 p-3 rounded mb-4">
-              Please <a href="/login" class="font-bold underline">log in</a> to leave a comment.
+              Please <a href="/auth/login" class="font-bold underline">log in</a> to leave a comment.
             </div>
           {/if}
           

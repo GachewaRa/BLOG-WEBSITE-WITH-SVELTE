@@ -7,9 +7,12 @@
     let email = "";
     let password = "";
     let successMessage = "";
+    let isError = false;
+    let showPassword = false;
 
     async function register() {
         successMessage = "";
+        isError = false;
         try {
             const response = await postRequest("/auth/users/", {
                 first_name: firstName,
@@ -28,11 +31,13 @@
                 password = "";
             } else if (response.error) {
                 successMessage = response.error || "Registration failed. Please try again.";
+                isError = true;
             } else {
                 successMessage = "Registration failed. Please try again.";
             }
         } catch (error) {
             successMessage = "Error connecting to the server.";
+            isError = true;
             console.error("Registration Error:", error);
         }
     }
@@ -92,26 +97,39 @@
                 />
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                    bind:value={password}
-                    class="input-field"
-                    required
-                />
-            </div>
+            <div class="form-group password-group">
+              <label for="password">Password</label>
+              <div class="password-container">
+                  <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      bind:value={password}
+                      class="input-field"
+                      required
+                  />
+                  <span class="toggle-password" on:click={() => showPassword = !showPassword}>
+                      {#if showPassword}
+                          👁️ <!-- Eye Open Icon -->
+                      {:else}
+                          👁️‍🗨️ <!-- Eye Closed Icon -->
+                      {/if}
+                  </span>
+              </div>
+          </div>
+          
 
             <button type="submit">Register</button>
         </form>
 
         {#if successMessage}
-			<p class:success-message={!successMessage.includes("Error") && !successMessage.includes("failed")} class:error-message={successMessage.includes("Error") || successMessage.includes("failed")}>
-				{successMessage}
-			</p>
-		{/if}
+            <p class:success-message={!isError} class:error-message={isError}>
+                {successMessage}
+            </p>
+        {/if}
+
+
+       
     </div>
 </div>
 
@@ -252,4 +270,32 @@
       background: rgba(220, 20, 60, 0.2);
       border-left: 4px solid crimson;
     }
+
+    /* Password field container */
+    .password-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Input field inside the password container */
+    .password-container input {
+        width: 100%;
+        padding-right: 40px; /* Space for the eye icon */
+    }
+
+    /* Eye icon styling */
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--primary-light);
+        transition: color 0.3s;
+    }
+
+    .toggle-password:hover {
+        color: var(--highlight);
+    }
+
   </style>

@@ -256,7 +256,7 @@
 	  
 	  <div class="contact-item">
 		<span class="icon">📧</span>
-		<a href="mailto:gachewaadrian@gmail.com">gachewaadrian@gmail.com</a>
+		<a href="mailto:ra@wordofra.com">ra@wordofra.com</a>
 	  </div>
 	  
 	  {#if isMobile}
