@@ -215,9 +215,9 @@
         {#if post.category}
           <span class="bg-stone-200 dark:bg-stone-700 px-2 py-1 rounded mr-3">{post.category}</span>
         {/if}
-        {#if post.author}
+        <!-- {#if post.author}
           <span>By {post.author}</span>
-        {/if}
+        {/if} -->
       </div>
       
       {#if post.image}

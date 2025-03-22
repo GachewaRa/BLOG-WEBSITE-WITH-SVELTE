@@ -7,7 +7,7 @@
   </svelte:head>
   
   <section class="container mx-auto py-8">
-	<div class="max-w-4xl mx-auto bg-white dark:bg-stone-800 shadow-md rounded-lg p-6">
+	<div class="max-w-4xl mx-auto bg-white dark:bg-stone-900 shadow-md rounded-lg p-6">
 	  <h1 class="text-3xl font-bold text-stone-900 dark:text-amber-100 mb-4" transition:fade>
 		My Skills
 	  </h1>

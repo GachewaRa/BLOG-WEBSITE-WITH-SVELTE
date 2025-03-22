@@ -205,7 +205,8 @@
               
               <!-- Site Watermark -->
               <div class="absolute bottom-2 right-4">
-                <span class="text-amber-100 opacity-70 text-sm">wordofra.com</span>
+                <!-- <span class="text-amber-100 opacity-70 text-sm">wordofra.com</span> -->
+                <span class="custom-text">wordofra.com</span>
               </div>
             </div>
             

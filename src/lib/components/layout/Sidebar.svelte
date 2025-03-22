@@ -36,7 +36,7 @@
   onMount(fetchCategories);
 </script>
 
-<aside class="bg-stone-900 text-amber-100 h-full w-64 flex flex-col">
+<aside class="bg-black text-amber-100 h-full w-64 flex flex-col">
   <!-- Logo -->
   <div class="p-4 flex justify-center">
     <div class="w-52 h-24 rounded-md flex items-center justify-center"> 
@@ -45,7 +45,7 @@
   </div>
 
   <!-- Categories Title (Fixed) -->
-  <div class="px-3 bg-stone-900 sticky top-0 z-10">
+  <div class="px-3 bg-black sticky top-0 z-10">
     <h3 class="text-xl font-semibold text-center text-amber-300 border-b border-amber-700 py-3">
       Categories
     </h3>
@@ -65,7 +65,7 @@
   </div>
   
   <!-- Quotes Button (Fixed at bottom) -->
-  <div class="px-3 py-4 bg-stone-900 border-t border-amber-700">
+  <div class="px-3 py-4 bg-black border-t border-amber-700">
     <a href="/quotes" class="block w-full py-3 px-4 bg-black hover:bg-white text-amber-800 rounded-md text-center font-bold transition-colors">
       Quotes
     </a>
