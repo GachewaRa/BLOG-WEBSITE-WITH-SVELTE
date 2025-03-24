@@ -2,7 +2,8 @@
 import { user } from '$lib/stores/authStore';
 import { get } from 'svelte/store';
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = "https://wordofra.onrender.com";
+const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dyr0ityfq/";
 
 /**
  * Makes an API request with common logic for all methods.
@@ -12,10 +13,37 @@ const BASE_URL = "http://127.0.0.1:8000";
  * @param {string} [customToken] - Optional custom token to override stored token.
  * @returns {Promise<{ data?: any, error?: string, status: number | null }>}
  */
+
+// Helper function to process and fix image URLs in API responses
+const processResponseData = (data) => {
+  // Process arrays
+  if (Array.isArray(data)) {
+    return data.map(item => processResponseData(item));
+  }
+  
+  // Process objects
+  if (data && typeof data === 'object') {
+    const processed = {...data};
+    // Look for image fields and fix their URLs
+    for (const [key, value] of Object.entries(processed)) {
+      if (typeof value === 'string' && 
+          (key.includes('image') || key.endsWith('_img') || key.includes('photo')) && 
+          !value.startsWith('http')) {
+        processed[key] = `${CLOUDINARY_BASE_URL}${value}`;
+      } else if (typeof value === 'object' && value !== null) {
+        processed[key] = processResponseData(value);
+      }
+    }
+    return processed;
+  }
+  
+  return data;
+};
+
 const makeRequest = async (endpoint, method, payload = null, customToken = null) => {
   // let token = customToken;
   let token = localStorage.getItem("token");
-  console.log("Token:", token);
+  // console.log("Token:", token);
   
   // If no custom token provided, try to get from localStorage or authStore
   if (!token) {
@@ -44,7 +72,7 @@ const makeRequest = async (endpoint, method, payload = null, customToken = null)
   
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
-    console.log("USING ENDPOINT: ", endpoint);
+    
     
     // Check if response content is JSON before parsing
     const contentType = response.headers.get("content-type");
@@ -61,20 +89,18 @@ const makeRequest = async (endpoint, method, payload = null, customToken = null)
     if (!response.ok) {
       return { error: extractErrorMessage(responseData, response.status), status: response.status };
     }
+    // console.log("RESPONSE: ", responseData);
     
-    return { data: responseData?.responseObject || responseData, status: response.status };
+    // Process the response data to fix image URLs before returning
+    const processedData = processResponseData(responseData?.responseObject || responseData);
+    
+    return { data: processedData, status: response.status };
   } catch (error) {
     console.error("Network error:", error);
     return { error: "Network error. Please try again.", status: null };
   }
 };
 
-/**
- * Extracts a user-friendly error message from API response.
- * @param {any} responseData - Parsed response data.
- * @param {number} status - HTTP status code.
- * @returns {string} - Formatted error message.
- */
 const extractErrorMessage = (responseData, status) => {
   if (!responseData) return `Request failed with status ${status}`;
   if (typeof responseData === "string") return responseData;
@@ -116,6 +142,14 @@ const extractErrorMessage = (responseData, status) => {
   
   return responseData.statusMessage || `Request failed with status ${status}`;
 };
+
+
+/**
+ * Extracts a user-friendly error message from API response.
+ * @param {any} responseData - Parsed response data.
+ * @param {number} status - HTTP status code.
+ * @returns {string} - Formatted error message.
+ */
 
 // API Helper Functions
 export const getRequest = async (endpoint, customToken = null) => 

@@ -9,7 +9,7 @@
   let currentQuoteIndex = 0;
   let expandedCommentSections = new Set();
   
-  // Comments data
+  
   let comments = {};
   let commentsLoading = {};
   let commentError = null;
@@ -200,7 +200,7 @@
                 <blockquote class="text-xl md:text-2xl font-medium text-amber-100 mb-4">
                   "{quote.content}"
                 </blockquote>
-                <cite class="text-lg text-amber-300 font-bold">— {quote.owner}</cite>
+                <cite class="text-lg text-amber-500 font-bold">— {quote.owner}</cite>
               </div>
               
               <!-- Site Watermark -->

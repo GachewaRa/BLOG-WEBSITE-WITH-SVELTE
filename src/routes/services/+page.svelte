@@ -66,13 +66,15 @@
 			<div class="p-6 flex flex-col h-full">
 			  <div class="flex items-center mb-4">
 				{#if service.icon}
-				  <img src={service.icon} alt={service.name} class="w-16 h-16 object-cover rounded-md mr-4" />
+				<img 
+					src={service.icon.startsWith('http') ? service.icon : `https://res.cloudinary.com/dyr0ityfq/${service.icon}`} 
+					alt={service.name} 
+					class="w-16 h-16 object-cover rounded-md mr-4" 
+				/>
 				{:else}
-				  <div class="w-16 h-16 bg-stone-200 dark:bg-stone-700 rounded-md flex items-center justify-center mr-4">
-					<span class="text-stone-500 dark:text-stone-400">No icon</span>
-				  </div>
+				<!-- No icon code remains the same -->
 				{/if}
-				<h2 class="text-xl font-semibold text-stone-900 dark:text-amber-100">{service.name}</h2>
+								<h2 class="text-xl font-semibold text-stone-900 dark:text-amber-100">{service.name}</h2>
 			  </div>
 			  
 			  <div class="mt-2 mb-6 flex-grow text-stone-700 dark:text-stone-300">
