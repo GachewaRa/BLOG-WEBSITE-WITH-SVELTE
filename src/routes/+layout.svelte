@@ -37,7 +37,7 @@
   <title>Word of Ra</title>
   <meta property="og:title" content="Word of Ra" />
   <meta property="og:description" content="Code & Conversations." />
-  <meta property="og:image" content="https://www.wordofra.com/SITE-LOGO11.png" /> <meta property="og:url" content="https://www.wordofra.com" />
+  <meta property="og:image" content="https://www.wordofra.com/SITELOGO11.png" /> <meta property="og:url" content="https://www.wordofra.com" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Word of Ra" />
 </svelte:head>
