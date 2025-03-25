@@ -36,11 +36,15 @@
 <svelte:head>
   <title>Word of Ra</title>
   <meta property="og:title" content="Word of Ra" />
-  <meta property="og:description" content="Code & Conversations." />
-  <meta property="og:image" content="https://www.wordofra.com/SITELOGO11.png" /> <meta property="og:url" content="https://www.wordofra.com" />
+  <meta property="og:description" content="Journal of a Renaissance Developer" />
+  <meta property="og:image" content="https://www.wordofra.com/SITELOGO11.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://www.wordofra.com" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Word of Ra" />
 </svelte:head>
+
     
   <div class="flex flex-col min-h-screen bg-black dark:bg-stone-900 dark:text-amber-50 transition-colors duration-300">
     {#if $isSidebarOpen && !$isLargeScreen}
