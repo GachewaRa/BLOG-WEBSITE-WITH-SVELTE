@@ -251,7 +251,7 @@
                     </div>
                   {:else}
                     <p class="mb-4 text-center text-stone-600 dark:text-stone-300">
-                      Please <a href="/login" class="text-amber-600 hover:underline">login</a> to comment.
+                      Please <a href="/auth/login" class="text-amber-600 hover:underline">login</a> to comment.
                     </p>
                   {/if}
                   
