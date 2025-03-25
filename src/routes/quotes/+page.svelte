@@ -197,7 +197,7 @@
               
               <!-- Quote Text Overlay -->
               <div class="absolute inset-0 flex flex-col justify-center items-center p-8 text-center">
-                <blockquote class="text-xl md:text-2xl font-medium text-amber-100 mb-4">
+                <blockquote class="text-xl md:text-2xl font-medium text-amber-100 mb-4 break-words">
                   "{quote.content}"
                 </blockquote>
                 <cite class="text-lg text-amber-500 font-bold">— {quote.owner}</cite>
