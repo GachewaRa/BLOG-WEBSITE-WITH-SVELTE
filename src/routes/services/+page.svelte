@@ -30,7 +30,7 @@
 	  
 	  return {
 		emailLink: `mailto:gachewaadrian@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-		whatsappLink: `https://wa.me/254717990230?text=${encodeURIComponent(subject + "\n\n" + body)}`
+		whatsappLink: `https://wa.me/254105228491?text=${encodeURIComponent(subject + "\n\n" + body)}`
 	  };
 	}
 	

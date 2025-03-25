@@ -3,6 +3,7 @@
   import CategoryList from '$lib/components/ui/CategoryList.svelte';
   import logo from '$lib/images/SITE LOGO11.png';
   import { getRequest } from '$lib/utils/api';
+  import { toggleSidebar } from '$lib/stores/appStore';
   
   export let isLargeScreen = true;
   
@@ -66,7 +67,7 @@
   
   <!-- Quotes Button (Fixed at bottom) -->
   <div class="px-3 py-4 bg-black border-t border-amber-700">
-    <a href="/quotes" class="block w-full py-3 px-4 bg-black hover:bg-white text-amber-800 rounded-md text-center font-bold transition-colors">
+    <a href="/quotes" class="block w-full py-3 px-4 bg-black hover:bg-white text-amber-800 rounded-md text-center font-bold transition-colors" on:click={toggleSidebar}>
       Quotes
     </a>
   </div>
