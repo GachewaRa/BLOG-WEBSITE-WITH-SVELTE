@@ -2,7 +2,7 @@
 import { user } from '$lib/stores/authStore';
 import { get } from 'svelte/store';
 
-const BASE_URL = "http://206.189.34.235:8001";
+const BASE_URL = "https://api.wordofra.com";
 const CLOUDINARY_BASE_URL = "https://res.cloudinary.com/dyr0ityfq/";
 
 /**
