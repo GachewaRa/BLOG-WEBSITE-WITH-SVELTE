@@ -10,34 +10,6 @@
     let postsPerPage = 6;
     let totalPosts = 0;
     
-    // Function to create a plain text preview from HTML content
-    function createContentPreview(htmlContent, maxLength = 150) {
-      // Create a temporary div to hold the HTML content
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = htmlContent;
-      
-      // Get the text content (strips all HTML tags)
-      const textContent = tempDiv.textContent || tempDiv.innerText || '';
-      
-      // Trim and limit the length
-      const trimmedContent = textContent.trim();
-      if (trimmedContent.length <= maxLength) {
-        return trimmedContent;
-      }
-      
-      // Return truncated content with ellipsis
-      return trimmedContent.substring(0, maxLength) + '...';
-    }
-    
-    // Function to extract the first image from HTML content
-    function extractFirstImage(htmlContent) {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = htmlContent;
-      
-      const imgElement = tempDiv.querySelector('img');
-      return imgElement ? imgElement.getAttribute('src') : null;
-    }
-    
     // Format date nicely
     function formatDate(dateString) {
       const date = new Date(dateString);
@@ -58,17 +30,10 @@
         
         if (response.data) {
           // Process the posts to add content preview and handle images
-          posts = response.data.results.map(post => {
-            // If post doesn't have an image from the API, try to extract one from content
-            const contentImage = !post.image ? extractFirstImage(post.content) : null;
-            
-            return {
+          posts = response.data.results.map(post => ({
               ...post,
               formattedDate: formatDate(post.updated_at || post.created_at),
-              contentPreview: createContentPreview(post.content),
-              contentImage: contentImage
-            };
-          });
+          }));
           
           totalPosts = response.data.count;
         } else if (response.error) {
@@ -125,8 +90,8 @@
             <a href="/blog/{post.slug}" class="block hover:opacity-90 transition-opacity flex-grow">
               {#if post.image}
                 <img src={post.image} alt={post.title} class="w-full h-56 object-cover" />
-              {:else if post.contentImage}
-                <img src={post.contentImage} alt={post.title} class="w-full h-56 object-cover" />
+              {:else if post.first_image_url}
+                <img src={post.first_image_url} alt={post.title} class="w-full h-56 object-cover" />
               {:else}
                 <div class="w-full h-32 bg-stone-200 dark:bg-stone-700 flex items-center justify-center">
                   <span class="text-stone-500 dark:text-stone-400">No image</span>
@@ -141,7 +106,7 @@
                   {/if}
                 </div>
                 <p class="mt-2 text-stone-700 dark:text-stone-300 flex-grow">
-                  {post.contentPreview}
+                  {post.excerpt}
                 </p>
                 <div class="mt-3 flex flex-wrap">
                   {#if post.tags && post.tags.length > 0}
